@@ -1,0 +1,9 @@
+name: Print DateTime
+
+on: [push, pull_request]
+
+jobs:
+  datetime:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🕒 $(date)"
