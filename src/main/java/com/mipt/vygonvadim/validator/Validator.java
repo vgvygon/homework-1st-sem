@@ -1,61 +1,7 @@
-package com.mipt.vygonvadim;
+package com.mipt.vygonvadim.validator;
 
-import java.lang.annotation.*;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@interface NotNull {
-    String message();
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@interface Size {
-    int min();
-    int max();
-    String message();
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@interface Range {
-    long min();
-    long max();
-    String message();
-}
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@interface Email {
-    String message();
-}
-
-class ValidationResult {
-    private boolean isValid;
-    private List<String> errors;
-
-    public ValidationResult() {
-        this.errors = new ArrayList<>();
-        this.isValid = true;
-    }
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void addError(String error) {
-        this.errors.add(error);
-        this.isValid = false;
-    }
-}
 
 public class Validator {
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
