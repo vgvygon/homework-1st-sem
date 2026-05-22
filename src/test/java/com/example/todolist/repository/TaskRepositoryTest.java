@@ -30,7 +30,7 @@ class TaskRepositoryTest {
         List<Task> result = taskRepository.findByCompletedAndPriority(false, Priority.HIGH);
 
         assertThat(result).hasSize(1);
-        assertThat(result.getFirst().getTitle()).isEqualTo("task");
+        assertThat(result.get(0).getTitle()).isEqualTo("task");
     }
 
     @Test
@@ -72,7 +72,7 @@ class TaskRepositoryTest {
 
         assertThat(savedTask.getId()).isNotNull();
         assertThat(tasks).hasSize(1);
-        assertThat(tasks.getFirst().getAttachments()).hasSize(1);
+        assertThat(tasks.get(0).getAttachments()).hasSize(1);
     }
 
     @Test
