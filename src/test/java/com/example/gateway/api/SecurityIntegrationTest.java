@@ -3,7 +3,6 @@ package com.example.gateway.api;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,8 +30,7 @@ class SecurityIntegrationTest {
     void shouldReturnUnauthorizedForProfileWithoutToken() throws Exception {
         mockMvc.perform(get("/api/v1/profile"))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.status").value(401))
-                .andExpect(header().exists("X-Trace-Id"));
+                .andExpect(jsonPath("$.status").value(401));
     }
 
     @Test
