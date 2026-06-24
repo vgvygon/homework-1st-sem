@@ -1,0 +1,29 @@
+security:
+  jwt:
+    secret: test-secret-test-secret-test-secret-test-secret
+    expiration: 30m
+  password:
+    pepper: test-pepper
+
+external-api:
+  base-url: http://localhost:8080/external/v1
+  connect-timeout: 500ms
+  read-timeout: 800ms
+  user-agent: test-gateway/1.0
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      externalApi:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 4
+        minimumNumberOfCalls: 2
+        failureRateThreshold: 50
+        waitDurationInOpenState: 2s
+        permittedNumberOfCallsInHalfOpenState: 1
+  ratelimiter:
+    instances:
+      externalApi:
+        limitForPeriod: 100
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0ms

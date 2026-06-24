@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: secure-gateway
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-for-local-development-change-this}
+    expiration: 30m
+  password:
+    pepper: ${PASSWORD_PEPPER:local-pepper}
+
+external-api:
+  base-url: ${EXTERNAL_API_BASE_URL:http://localhost:8080/external/v1}
+  connect-timeout: 500ms
+  read-timeout: 800ms
+  user-agent: secure-gateway/1.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers,ratelimiters
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: secure-gateway
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      externalApi:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 6
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 2
+        waitDurationInOpenState: 10s
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        recordExceptions:
+          - com.example.gateway.exception.ExternalApiException
+          - com.example.gateway.exception.ExternalTimeoutException
+          - org.springframework.web.client.RestClientException
+          - java.net.SocketTimeoutException
+          - java.io.IOException
+  ratelimiter:
+    instances:
+      externalApi:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0ms
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{traceId:-}] %logger{36} - %msg%n"
