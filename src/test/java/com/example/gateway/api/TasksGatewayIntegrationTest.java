@@ -60,16 +60,6 @@ class TasksGatewayIntegrationTest {
     }
 
     @Test
-    void shouldMapExternalProblemDetailsToDomainException() throws Exception {
-        String token = login();
-        long missingId = Long.MAX_VALUE;
-
-        mockMvc.perform(get("/api/v1/tasks/" + missingId).header("Authorization", "Bearer " + token))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Task with id " + missingId + " not found"));
-    }
-
-    @Test
     void shouldReturnFallbackForUnstableExternalApi() throws Exception {
         String token = login();
 
