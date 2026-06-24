@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: todolist-testing
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/todolist}
+    username: ${DB_USERNAME:todolist}
+    password: ${DB_PASSWORD:todolist}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
