@@ -1,0 +1,9 @@
+target/
+build/
+.idea/
+*.iml
+.env
+uploads/
+local.properties
+*.log
+.DS_Store
